@@ -22,7 +22,7 @@
 */
 
 #ifdef CONFIG_TAS2563_CODEC
-#define DEBUG
+#define DEBUG 0
 #include <linux/module.h>
 #include <linux/moduleparam.h>
 #include <linux/init.h>
@@ -1329,6 +1329,9 @@ static int tas2563_set_bitwidth(struct tas2563_priv *pTAS2563, int bitwidth)
 	int slot_width_tmp = 0;
 	dev_info(pTAS2563->dev, "%s %d\n", __func__, __LINE__);
 
+	/* Hardcode bitwidth to 32bit_le */
+	bitwidth = SNDRV_PCM_FORMAT_S32_LE;
+
 	switch (bitwidth) {
 	case SNDRV_PCM_FORMAT_S16_LE:
 			pTAS2563->update_bits(pTAS2563, 
@@ -1415,7 +1418,7 @@ static int tas2563_set_samplerate(struct tas2563_priv *pTAS2563, int samplerate)
 				TAS2563_TDMConfigurationReg0_SAMPRATE31_Mask,
 				TAS2563_TDMConfigurationReg0_SAMPRATE31_88_2_96kHz);
 			break;
-	case 19200:
+	case 192000:
 			pTAS2563->update_bits(pTAS2563,
 				TAS2563_TDMConfigurationReg0,
 				TAS2563_TDMConfigurationReg0_SAMPRATERAMP_Mask,
@@ -1425,7 +1428,7 @@ static int tas2563_set_samplerate(struct tas2563_priv *pTAS2563, int samplerate)
 				TAS2563_TDMConfigurationReg0_SAMPRATE31_Mask,
 				TAS2563_TDMConfigurationReg0_SAMPRATE31_176_4_192kHz);
 			break;
-	case 17640:
+	case 176400:
 			pTAS2563->update_bits(pTAS2563,
 				TAS2563_TDMConfigurationReg0,
 				TAS2563_TDMConfigurationReg0_SAMPRATERAMP_Mask,
